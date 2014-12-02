@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh-cn" ng-app>
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>cartman测试框架</title>
+
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <link href="css/main.css" rel="stylesheet">
+
+  <script src="js/jquery.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/angular.min.js"></script>
+  <script src="js/cartman.test.js"></script>
+  <script src="js/controllers.js"></script>
+
+  <script src="test.js"></script>
+</head>
+
+<body ng-controller="mainCtrl">
+  <div class="container">
+    <div class="page-header">
+      <h1>Winsion AFC 测试 <small>powered by cartman-test</small></h1>
+    </div>
+
+    <button type="button" class="btn btn-success" ng-click="start()">运行</button>
+    <hr>
+    <div class="progress">
+      <div class="progress-bar" role="progressbar" aria-valuenow="{{runStepCount * 100 / stepCount}}" aria-valuemin="0" aria-valuemax="100" style="width: {{runStepCount * 100 / stepCount}}%;">
+        <span class="sr-only">0% Complete</span>
+      </div>
+    </div>
+
+    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+      <div class="panel panel-{{cas.state}}" ng-repeat="cas in cases">
+        <div class="panel-heading" role="tab" id="PH{{cas.id}}">
+          <h4 class="panel-title">
+              <a data-toggle="collapse" data-parent="#{{cas.id}}" aria-expanded="true"
+                 href="#PD{{cas.id}}" aria-controls="PC{{cas.id}}">
+                用例：{{cas.name}}
+              </a>
+            </h4>
+        </div>
+        <div id="PD{{cas.id}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+          <div class="panel-body">
+            <ul class="list-group">
+              <li class="list-group-item list-group-item-{{stp.state}}" ng-repeat="stp in cas.steps">步骤：{{stp.name}}
+              <pre class="text-danger" ng-if="stp.state=='danger'">{{stp.err}}</pre>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
