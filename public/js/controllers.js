@@ -13,6 +13,7 @@ function mainCtrl($scope, $http) {
 
     var run = function(nowCase, nowStep) {
       setTimeout(function() {
+        cartman.cases[nowCase].steps[nowStep].state = "success";
         try {
           cartman.cases[nowCase].steps[nowStep].execute();
         } catch (exception) {
@@ -28,6 +29,7 @@ function mainCtrl($scope, $http) {
           nowStep = 0;
         } else {
           for (var i = 0; i < cartman.cases.length; i++) {
+            cartman.cases[i].state = "success";
             for (var j = 0; j < cartman.cases[i].steps.length; j++) {
               if (cartman.cases[i].steps[j].state == "danger") {
                 cartman.cases[i].state = "danger";
