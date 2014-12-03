@@ -1,11 +1,16 @@
 var express = require('express');
 var querystring = require('querystring');
 var http = require('http');
+var bodyParser    = require('body-parser');
 var app = express();
 
-var proxyServer = "localhost";
-var proxyServerPort = 3000;
+var proxyServer = "172.16.0.40";
+var proxyDomain = "/winsion-afc-v2.1";
+var proxyServerPort = 80;
 
+app.use(bodyParser.text());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.disable('etag');
 app.use(express.static(__dirname + '/public'));
 
 app.get('/proxy', function(req, res) {
@@ -14,60 +19,60 @@ app.get('/proxy', function(req, res) {
 
   var opt = {
     method: "GET",
-    host: "localhost",
+    host: proxyServer,
     port: proxyServerPort,
-    path: proxyPath + "?" + data,
+    path: proxyDomain + proxyPath + "?" + data,
     headers: {
       "Content-Type": 'text/plain',
-      "Content-Length": 0
+      "X-Real-IP": req.ip
     }
   };
 
-  var req = http.request(opt, function(serverFeedback) {
+  var req_proxy = http.request(opt, function(serverFeedback) {
     var body = "";
     serverFeedback.on('data', function(data) {
         body += data;
       })
       .on('end', function() {
+        res.set('Pragma', 'no-cache');
+        res.set('Cache-Control', 'no-cache');
+        res.set('Expires', '0');
+        res.set('Content-Type', 'application/json');
         res.status(serverFeedback.statusCode).send(body);
       });
   });
-  req.end();
+  req_proxy.end();
 });
 
 app.post('/proxy', function(req, res) {
   var proxyPath = req.query.proxypath;
+  var data = querystring.stringify(req.body);
 
   var opt = {
     method: "POST",
     host: proxyServer,
     port: proxyServerPort,
-    path: proxyPath,
+    path: proxyDomain + proxyPath + "?" + data,
     headers: {
       "Content-Type": 'text/plain',
-      "Content-Length": data.length
+      "X-Real-IP": req.ip
     }
   };
 
-  var req = http.request(opt, function(serverFeedback) {
+  var req_proxy = http.request(opt, function(serverFeedback) {
     var body = "";
     serverFeedback.on('data', function(data) {
         body += data;
       })
       .on('end', function() {
+        res.set('Pragma', 'no-cache');
+        res.set('Cache-Control', 'no-cache');
+        res.set('Expires', '0');
+        res.set('Content-Type', 'application/json');
         res.status(serverFeedback.statusCode).send(body);
       });
   });
-  req.write(req.body);
-  req.end();
-});
-
-app.all('/login', function(req, res) {
-  if (req.query.username == "admin" && req.query.password == "admin") {
-    res.status(200).send({id: "001"});
-  } else {
-    res.status(401).send();
-  }
+  req_proxy.end();
 });
 
 var server = app.listen(3000, function() {

@@ -2,6 +2,8 @@
   var cartman = (function() {
     var cases = [];
 
+    var scope;
+
     var createUUID = (function(uuidRegEx, uuidReplacer) {
       return function() {
         return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(uuidRegEx, uuidReplacer).toUpperCase();
@@ -12,8 +14,21 @@
       return v.toString(16);
     });
 
+    var apply = function() {
+      for (var i = 0; i < cartman.cases.length; i++) {
+        cartman.cases[i].state = "success";
+        for (var j = 0; j < cartman.cases[i].steps.length; j++) {
+          if (cartman.cases[i].steps[j].state == "danger") {
+            cartman.cases[i].state = "danger";
+          }
+        }
+      };
+    };
+
     return {
       cases: cases,
+
+      scope: scope,
 
       newCase: function() {
         var tmp = cartman.TestCase.createNew();
@@ -45,9 +60,10 @@
           teststep.state = "info";
           teststep.err = "";
           teststep.execute = function() {};
-          teststep.xhr = function(path, data, succ, erro) {
+          teststep.xhr = function(path, method, data, succ, erro) {
             $.ajax({
               url: "/proxy?proxypath=" + path,
+              type: method,
               data: data,
               success: function(data) {
                 try {
@@ -56,6 +72,8 @@
                   teststep.state = "danger";
                   teststep.err = exception.stack;
                 }
+                apply();
+                cartman.scope.$apply();
               },
               error: function(xhr, err, exp) {
                 try {
@@ -64,6 +82,8 @@
                   teststep.state = "danger";
                   teststep.err = exception.stack;
                 }
+                apply();
+                cartman.scope.$apply();
               }
             });
           };

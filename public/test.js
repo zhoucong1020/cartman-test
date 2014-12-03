@@ -9,10 +9,11 @@
   teststep.name = "正确的用户名密码";
   teststep.execute = function() {
     this.xhr(
-      "/login",
-      "username=admin&password=admin",
+      "/authority.json/login",
+      "POST",
+      "staName=admin&staPassword=admin&samId=1&systemModule=OPERATION",
       function(data) {
-        assert(data.id == "001", "登录成功，但返回数据错误");
+        assert(data.username == "admin", "登录成功，但返回数据错误");
       },
       function() {
         assertError("登录失败");
@@ -25,6 +26,7 @@
   teststep.execute = function() {
     this.xhr(
       "/login",
+      "POST",
       "username=admin22&password=admin",
       function(data) {
         assertError("错误的用户名密码登录成功");

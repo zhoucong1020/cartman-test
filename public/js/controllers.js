@@ -1,5 +1,6 @@
-function mainCtrl($scope, $http) {
+function mainCtrl($scope, $http, $timeout) {
   $scope.cases = cartman.cases;
+  cartman.scope = $scope;
 
   var stepCount = 0;
   for (var i = 0; i < cartman.cases.length; i++) {
@@ -12,7 +13,7 @@ function mainCtrl($scope, $http) {
     $scope.runStepCount = 0;
 
     var run = function(nowCase, nowStep) {
-      setTimeout(function() {
+      $timeout(function() {
         cartman.cases[nowCase].steps[nowStep].state = "success";
         try {
           cartman.cases[nowCase].steps[nowStep].execute();
@@ -28,19 +29,9 @@ function mainCtrl($scope, $http) {
           nowCase++;
           nowStep = 0;
         } else {
-          for (var i = 0; i < cartman.cases.length; i++) {
-            cartman.cases[i].state = "success";
-            for (var j = 0; j < cartman.cases[i].steps.length; j++) {
-              if (cartman.cases[i].steps[j].state == "danger") {
-                cartman.cases[i].state = "danger";
-              }
-            }
-          }
-          $scope.$apply();
           return;
         }
 
-        $scope.$apply();
         run(nowCase, nowStep);
       }, 0);
     };
