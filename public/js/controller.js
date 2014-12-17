@@ -2,21 +2,24 @@
  * Created by lcf on 2014/12/4.
  */
 function TestAllCrl($http, $scope) {
-    cartman.init($scope, _cartman_test_data);
-    cartman.execute();
-    $scope.groups = _cartman_test_data;
+    $scope.groups = [];
+    $scope.runStepCount = 10;
+    $scope.stepCount = 0;
+    $scope.testFiles =[];
+    $http.get("/cartman_test_file").success(function(data){
+        $scope.testFiles = data;
+        $scope.$apply();
+        if(data.length>0){
+            cartman.executeFile($scope,data[0],init);
+        }
+    })
     $("#start").click(function(){
-        $.getScript("test/"+$("#testFile").val(),function(data){
-            cartman.reset(_cartman_test_data);
-            $scope.groups = _cartman_test_data;
-            setTimeout(init,100)
-        })
+        var fileName = $("#testFile").val();
+        cartman.executeFile($scope,fileName);
     });
 }
 $(function () {
-    $(document).ready(function () {
-        init();
-    });
+     init();
 })
 
 function init() {

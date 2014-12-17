@@ -18,6 +18,15 @@ app.disable('etag');
 app.use(express.static(__dirname + '/public'));
 
 
+var fs = require("fs")
+app.use("/cartman_test_file",function(req,res){
+    var testFiles = fs.readdirSync(__dirname+"/public/test");
+    testFiles = testFiles.filter(function(ele){
+        return ".js" == ele.substr(ele.length-3,3);
+    })
+    res.send(testFiles);
+})
+
 app.use(function (req, res) {
     if(req.url == "/favicon.ico"){
         return;

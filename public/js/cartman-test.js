@@ -322,15 +322,29 @@ var cartman = (function () {
         return v.toString(16);
     });
 
-    var resetData = function(data){
-        init(_$scope,data);
+    var resetData = function($scope,data){
+        init($scope,data);
         executeNext();
+    }
+
+    var executeFile = function($scope,fileName,fn){
+        if(!fileName || fileName.trim().length == 0){
+            resetData($scope,_cartman_test_data);
+            $scope.groups = _cartman_test_data;
+            return;
+        }
+        $.getScript("test/"+fileName,function(data){
+            resetData($scope,_cartman_test_data);
+            $scope.groups = _cartman_test_data;
+            fn();
+        })
     }
     return {
         reset:resetData,
         init: init,
         status: STATUS,
-        execute: executeNext
+        execute: executeNext,
+        executeFile:executeFile
     }
 })();
 
