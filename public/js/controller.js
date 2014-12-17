@@ -5,6 +5,13 @@ function TestAllCrl($http, $scope) {
     cartman.init($scope, _cartman_test_data);
     cartman.execute();
     $scope.groups = _cartman_test_data;
+    $("#start").click(function(){
+        $.getScript("test/"+$("#testFile").val(),function(data){
+            cartman.reset(_cartman_test_data);
+            $scope.groups = _cartman_test_data;
+            setTimeout(init,100)
+        })
+    });
 }
 $(function () {
     $(document).ready(function () {
@@ -58,11 +65,6 @@ function init() {
         $(this).parent().addClass("active");
     });
     $(".a-li").parent().removeClass("active");
-
-    $("#start").click(function(){
-        cartman.execute();
-//        $(".collapse").collapse("show");
-    });
 }
 
 

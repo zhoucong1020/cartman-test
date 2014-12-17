@@ -7,7 +7,7 @@ var _cartman_test_authorizes ={
 
 var _cartman_test_data = [
     {
-        name: "groupC",
+        name: "C1",
         dependencies: [],
         urls: [
             {
@@ -69,8 +69,8 @@ var _cartman_test_data = [
                         "params": {
                             "str" : "中文测试"
                         },
-                        "description": "中文测试1",
-                        "expectation": "中文测试1",
+                        "description": "中文测试",
+                        "expectation": "中文测试",
                         "result": ""
                     },
                     {
@@ -136,8 +136,8 @@ var _cartman_test_data = [
         ]
     },
     {
-        name: "groupB",
-        dependencies: ["groupC"],
+        name: "C2",
+        dependencies: [],
         urls: [
             {
                 "name": "url1",
@@ -249,7 +249,7 @@ var _cartman_test_data = [
         ]
     },
     {
-        name: "groupA",
+        name: "C3",
         dependencies: [],
         urls: [
             {

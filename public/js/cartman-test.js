@@ -15,6 +15,7 @@ var cartman = (function () {
         _$scope.stepCount = 0;
         _groups = groups;
         var count = 0;
+        currentGroup = 0, currentUrl = 0, currentCase = -1;
         _groups.forEach(function (group) {
             group.state = STATUS.DEFAULT;
             group.id = createUUID();
@@ -203,7 +204,6 @@ var cartman = (function () {
         } else {
             return false;
         }
-        return true;
     }
     var nextUrl = function () {
         currentCase = 0;
@@ -222,7 +222,7 @@ var cartman = (function () {
         if (st == STATUS.SUCCESS) {
             return true;
         } else {
-            return nextUrl();
+            return calculateNext();
         }
     }
     var executeNext = function () {
@@ -321,7 +321,13 @@ var cartman = (function () {
             v = c == "x" ? r : (r & 3 | 8);
         return v.toString(16);
     });
+
+    var resetData = function(data){
+        init(_$scope,data);
+        executeNext();
+    }
     return {
+        reset:resetData,
         init: init,
         status: STATUS,
         execute: executeNext
