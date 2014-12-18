@@ -200,7 +200,6 @@ var cartman = (function () {
             } else {
                 return nextGroup();
             }
-
         } else {
             return false;
         }
@@ -331,12 +330,14 @@ var cartman = (function () {
         if(!fileName || fileName.trim().length == 0){
             resetData($scope,_cartman_test_data);
             $scope.groups = _cartman_test_data;
+            setTimeout(fn,100);
             return;
         }
         $.getScript("test/"+fileName,function(data){
             resetData($scope,_cartman_test_data);
             $scope.groups = _cartman_test_data;
-            fn();
+            $scope.$apply();
+           setTimeout(fn,100);
         })
     }
     return {

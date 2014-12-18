@@ -15,7 +15,7 @@ function TestAllCrl($http, $scope) {
     })
     $("#start").click(function(){
         var fileName = $("#testFile").val();
-        cartman.executeFile($scope,fileName);
+        cartman.executeFile($scope,fileName,init);
     });
 }
 $(function () {
