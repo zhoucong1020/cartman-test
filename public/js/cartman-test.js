@@ -15,7 +15,7 @@ var cartman = (function () {
         _$scope.stepCount = 0;
         _groups = groups;
         var count = 0;
-        currentGroup = 0, currentUrl = 0, currentCase = -1;
+        currentGroup = -1, currentUrl = 0, currentCase = -1;
         _groups.forEach(function (group) {
             group.state = STATUS.DEFAULT;
             group.id = createUUID();
@@ -169,6 +169,9 @@ var cartman = (function () {
         _$scope.$apply();
     }
     var calculateNext = function () {
+        if(currentGroup == -1){
+            return nextGroup();
+        }
         if (currentCase < _groups[currentGroup].urls[currentUrl].cases.length - 1) {
             currentCase++;
         } else {

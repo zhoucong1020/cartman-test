@@ -31,7 +31,6 @@ app.use(function (req, res) {
     if(req.url == "/favicon.ico"){
         return;
     }
-
     var method = req.method.toUpperCase();
     console.log(new Date().getTime()+ "    " +method + "    "+req.url +" request start");
     if (req.method.toUpperCase() == "GET") {

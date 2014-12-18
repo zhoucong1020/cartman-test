@@ -8,7 +8,7 @@ var _cartman_test_authorizes ={
 var _cartman_test_data = [
     {
         name: "groupB",
-        dependencies: ["groupC"],
+        dependencies: [],
         urls: [
             {
                 "name": "url1",
@@ -267,7 +267,7 @@ var _cartman_test_data = [
                             b: 2
                         },
                         "description": "1+2",
-                        "expectation": 3,
+                        "expectation": 5,
                         "result": ""
                     }
                 ]
