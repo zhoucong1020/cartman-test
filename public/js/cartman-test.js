@@ -339,7 +339,7 @@ var cartman = (function () {
         $.getScript("test/"+fileName,function(data){
             resetData($scope,_cartman_test_data);
             $scope.groups = _cartman_test_data;
-            $scope.$apply();
+          apply();
            setTimeout(fn,100);
         })
     }
