@@ -1,0 +1,114 @@
+.http-method(@color : #a41e22) {
+  width: 50px;
+  height: 25px;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: white;
+  display: inline-block;
+  font-size: 0.7em;
+  text-align: center;
+  padding: 7px 0 4px;
+  -moz-border-radius: 2px;
+  -webkit-border-radius: 2px;
+  -o-border-radius: 2px;
+  -ms-border-radius: 2px;
+  -khtml-border-radius: 2px;
+  margin-right: 10px;
+  border-radius: 2px;
+  background-color: @color;
+}
+
+.http-method-GET {
+  .http-method(#0000ff)
+}
+
+.http-method-POST {
+  .http-method(green)
+}
+
+.http-method-PUT {
+  .http-method(#c5862b)
+}
+
+.http-method-DELETE {
+  .http-method(#a41e22)
+}
+
+.heading {
+}
+
+.content {
+}
+
+.operations {
+}
+
+body {
+  position: relative;
+}
+
+@headHeight : 50px;
+.test-header {
+  background-color: lightblue;
+  width: 100%;
+  top: 0px;
+  position: fixed;
+  z-index: 9999;
+  margin-bottom: @headHeight *4/5;
+  text-align: center;
+}
+
+.container-margin-top {
+//  margin-top: @headHeight;
+}
+
+.test-header-content {
+  height: 25px;
+}
+
+.test-header .progress {
+  margin-top: 10px;
+  margin-bottom: 0px;
+  height: @headHeight /5;
+}
+
+
+.a_active(@color : #563d7c) {
+  padding-left: 19px;
+  color: @color;
+  text-decoration: none;
+  background-color: transparent;
+  border-left: 1px solid @color;
+  font: bold;
+}
+
+.nav > li > a {
+  display: block;
+  padding: 4px 20px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #999;
+  position: relative;
+}
+.nav > li > a:hover, .nav > li > a:focus {
+  .a_active(#563dcc);
+}
+
+.nav-ul{
+  height: 0;
+  overflow-y: hidden;
+}
+.nav-li>.active{
+  height: auto;
+}
+
+.nav-ul-li{
+  margin-left: 20px;
+}
+.active>a{
+  .a_active();
+}
+#navbar{
+  margin-top: 20px;
+}
+
