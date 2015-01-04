@@ -37,6 +37,8 @@ app.use(function (req, res) {
         getProxy(req,res);
     } else if (req.method.toUpperCase() == "POST") {
         postProxy(req,res);
+    }else{
+        postProxy(req,res)
     }
 })
 function getProxy(req, res) {
