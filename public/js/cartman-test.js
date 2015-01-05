@@ -174,11 +174,7 @@ var cartman = (function () {
         if (currentCase < _groups[currentGroup].urls[currentUrl].cases.length - 1) {
             currentCase++;
         } else {
-            if (currentUrl < _groups[currentGroup].urls.length - 1) {
-                return nextUrl();
-            } else {
-                return nextGroup();
-            }
+            return nextUrl();
         }
         return true;
     };
@@ -207,6 +203,9 @@ var cartman = (function () {
         }
     };
     var nextUrl = function () {
+        if (currentUrl == _groups[currentGroup].urls.length - 1) {
+            return nextGroup();
+        }
         currentCase = 0;
         currentUrl++;
         var st = STATUS.SUCCESS;
@@ -223,7 +222,7 @@ var cartman = (function () {
         if (st == STATUS.SUCCESS) {
             return true;
         } else {
-            return calculateNext();
+            return nextUrl();
         }
     };
     var executeNext = function () {
