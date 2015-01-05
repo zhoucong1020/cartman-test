@@ -27,7 +27,7 @@
         <div class="progress">
             <div class="progress-bar" role="progressbar" aria-valuenow="{{stepCount * 100 /runStepCount }}"
                  aria-valuemin="0" aria-valuemax="100" style="width: {{ stepCount* 100 / runStepCount}}%;">
-                <span class="sr-only">0% Complete</span>
+                <span class="sr-only">{{stepCount * 100 /runStepCount }}%</span>
             </div>
         </div>
         <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
@@ -96,7 +96,6 @@
     </div>
 </div>
 </div>
-<script src="test/testA.js"></script>
 <script src="./js/jquery.min.js"></script>
 <script src="./js/bootstrap.min.js"></script>
 <script src="./js/angular.min.js"></script>

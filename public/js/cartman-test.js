@@ -181,7 +181,7 @@ var cartman = (function () {
     var nextGroup = function () {
         if (currentGroup < _groups.length - 1) {
             currentCase = 0;
-            currentUrl = 0;
+            currentUrl = -1;
             currentGroup++;
             var state = STATUS.SUCCESS;
             var group = _groups[currentGroup];
@@ -194,7 +194,7 @@ var cartman = (function () {
                 });
             }
             if (state == STATUS.SUCCESS) {
-                return true;
+                return nextUrl();
             } else {
                 return nextGroup();
             }
