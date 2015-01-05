@@ -4,7 +4,6 @@ var _cartman_test_authorizes ={
     date :'2014-12-10'
 }
 
-
 var _cartman_test_data = [
     {
         name: "groupB",
@@ -14,7 +13,7 @@ var _cartman_test_data = [
                 "name": "url1",
                 "dependencies": [],
                 "path": "/mathB/sum",
-                "method": "POST",
+                "method": "PUT",
                 "type": "query",
                 "params": ["a", "b"],
                 "cases": [
@@ -67,7 +66,7 @@ var _cartman_test_data = [
                 ]},
             {
                 "name": "url3",
-                "dependencies": ["url2"],
+                "dependencies": ["url2","url1"],
                 "path": "/mathB/test",
                 "method": "POST",
                 "type": "query",
@@ -95,7 +94,7 @@ var _cartman_test_data = [
                 "name": "url4",
                 "dependencies": ["url1"],
                 "path": "/mathB/max",
-                "method": "POST",
+                "method": "PUT",
                 "type": "query",
                 "cases": [
                     {
@@ -128,7 +127,7 @@ var _cartman_test_data = [
                 "dependencies": [],
                 "path": "/mathB/docInfo",
                 "authorities":[_cartman_test_authorizes],
-                "method": "POST",
+                "method": "GET",
                 "cases": [
                     {
                         "params": {"docInfo": {
@@ -267,7 +266,7 @@ var _cartman_test_data = [
                             b: 2
                         },
                         "description": "1+2",
-                        "expectation": 5,
+                        "expectation":3,
                         "result": ""
                     }
                 ]
