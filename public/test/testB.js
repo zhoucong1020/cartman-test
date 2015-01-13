@@ -4,18 +4,17 @@ var _cartman_test_authorizes ={
     date :'2014-12-10'
 }
 
-
 var _cartman_test_data = [
     {
-        name: "groupC",
+        name: "BC",
         dependencies: [],
         urls: [
             {
                 "name": "url1",
-                "dependencies": [],
+                "dependencies": ["url1"],
                 "path": "/mathB/docInfo",
                 "authorities":[_cartman_test_authorizes],
-                "method": "POST",
+                "method": "PUT",
                 "cases": [
                     {
                         "params": {"docInfo": {
@@ -69,8 +68,8 @@ var _cartman_test_data = [
                         "params": {
                             "str" : "中文测试"
                         },
-                        "description": "中文测试1",
-                        "expectation": "中文测试1",
+                        "description": "中1文测试",
+                        "expectation": "中文1测试",
                         "result": ""
                     },
                     {
@@ -136,8 +135,7 @@ var _cartman_test_data = [
         ]
     },
     {
-        name: "groupB",
-        dependencies: ["groupC"],
+        name: "BB",
         urls: [
             {
                 "name": "url1",
@@ -249,7 +247,7 @@ var _cartman_test_data = [
         ]
     },
     {
-        name: "groupA",
+        name: "BA",
         dependencies: [],
         urls: [
             {

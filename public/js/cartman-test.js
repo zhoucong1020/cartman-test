@@ -1,10 +1,9 @@
-var groups = [];
 var cartman = (function () {
     var STATUS = {
         SUCCESS: 'success',
         DEFAULT: 'default',
         DANGER: 'danger'
-    }
+    };
     var currentGroup = 0, currentUrl = 0, currentCase = -1;
     var _groups = [];
     var _$scope = {};
@@ -15,6 +14,7 @@ var cartman = (function () {
         _$scope.stepCount = 0;
         _groups = groups;
         var count = 0;
+        currentGroup = -1; currentUrl = 0; currentCase = -1;
         _groups.forEach(function (group) {
             group.state = STATUS.DEFAULT;
             group.id = createUUID();
@@ -29,14 +29,14 @@ var cartman = (function () {
                     count++;
                 }
             }
-        })
+        });
         _$scope.runStepCount = count;
 //        executeNext();
 //        _groups.forEach(function(group){
 //            executeGroup(group);
 //        })
 
-    }
+    };
     var executeGroup = function (group) {
         if (group.state != STATUS.DEFAULT) {
             return;
@@ -62,12 +62,12 @@ var cartman = (function () {
                 isExist = true;
                 state = group.state;
             }
-        })
+        });
         if(!isExist){
             alert(groupName + " that "+ currentG.name+" depend on is not present");
         }
         return state;
-    }
+    };
     var getUrlState = function (group, uName,currentU) {
         var state = STATUS.DEFAULT;
         var isExist = false;
@@ -81,7 +81,7 @@ var cartman = (function () {
             alert(uName +" that "+currentU.name + " depend on is not present");
         }
         return state;
-    }
+    };
     var executeUrl = function (url, group) {
         if (url.state != STATUS.DEFAULT) {
             return;
@@ -98,7 +98,7 @@ var cartman = (function () {
                 executeCase(cas, url, group);
             });
         }
-    }
+    };
     var executeCase = function (aCase, url, group) {
         if (aCase.state != STATUS.DEFAULT) {
             return;
@@ -116,13 +116,13 @@ var cartman = (function () {
                 }
                 applyUrl(url, group);
             },
-            error: function (xhr, err, exp) {
+            error: function (xhr) {
                 aCase.state = "danger";
                 aCase.result = xhr.responseText;
                 applyUrl(url, group);
             }
         });
-    }
+    };
     var applyUrl = function (url, group) {
         var i = 0;
         url.cases.forEach(function (cas) {
@@ -143,7 +143,7 @@ var cartman = (function () {
             url.state = STATUS.SUCCESS;
         }
         applyGroup(group);
-    }
+    };
     var applyGroup = function (group) {
         var i = 0;
         group.urls.forEach(function (url) {
@@ -158,31 +158,30 @@ var cartman = (function () {
                     i++;
                 }
             }
-        })
+        });
         if (i == group.urls.length) {
             group.state = STATUS.SUCCESS;
         }
         apply();
-    }
+    };
     var apply = function () {
         _$scope.$apply();
-    }
+    };
     var calculateNext = function () {
+        if(currentGroup == -1){
+            return nextGroup();
+        }
         if (currentCase < _groups[currentGroup].urls[currentUrl].cases.length - 1) {
             currentCase++;
         } else {
-            if (currentUrl < _groups[currentGroup].urls.length - 1) {
-                return nextUrl();
-            } else {
-                return nextGroup();
-            }
+            return nextUrl();
         }
         return true;
-    }
+    };
     var nextGroup = function () {
         if (currentGroup < _groups.length - 1) {
             currentCase = 0;
-            currentUrl = 0;
+            currentUrl = -1;
             currentGroup++;
             var state = STATUS.SUCCESS;
             var group = _groups[currentGroup];
@@ -195,17 +194,18 @@ var cartman = (function () {
                 });
             }
             if (state == STATUS.SUCCESS) {
-                return true;
+                return nextUrl();
             } else {
                 return nextGroup();
             }
-
         } else {
             return false;
         }
-        return true;
-    }
+    };
     var nextUrl = function () {
+        if (currentUrl == _groups[currentGroup].urls.length - 1) {
+            return nextGroup();
+        }
         currentCase = 0;
         currentUrl++;
         var st = STATUS.SUCCESS;
@@ -224,7 +224,7 @@ var cartman = (function () {
         } else {
             return nextUrl();
         }
-    }
+    };
     var executeNext = function () {
         if (!calculateNext()) {
             return false;
@@ -257,7 +257,7 @@ var cartman = (function () {
                 applyUrl(url, group);
                 executeNext();
             },
-            error: function (xhr, err, exp) {
+            error: function (xhr) {
                 aCase.state = "danger";
                 aCase.result = xhr.responseText;
                 _$scope.stepCount++;
@@ -281,11 +281,7 @@ var cartman = (function () {
                 }
             }
         } else {
-            if (data == expectation) {
-                return true;
-            } else {
-                return false;
-            }
+            return data == expectation;
         }
         return true;
     }
@@ -310,7 +306,7 @@ var cartman = (function () {
             })
         }
         return str;
-    }
+    };
     var createUUID = (function (uuidRegEx, uuidReplacer) {
         return function () {
             return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(uuidRegEx, uuidReplacer).toUpperCase();
@@ -321,11 +317,33 @@ var cartman = (function () {
             v = c == "x" ? r : (r & 3 | 8);
         return v.toString(16);
     });
+
+    var resetData = function($scope,data){
+        init($scope,data);
+        executeNext();
+    };
+
+    var executeFile = function($scope,fileName,fn){
+        if(!fileName || fileName.trim().length == 0){
+            resetData($scope,_cartman_test_data);
+            $scope.groups = _cartman_test_data;
+            setTimeout(fn,100);
+            return;
+        }
+        $.getScript("test/"+fileName,function(){
+            resetData($scope,_cartman_test_data);
+            $scope.groups = _cartman_test_data;
+          apply();
+           setTimeout(fn,100);
+        })
+    };
     return {
+        reset:resetData,
         init: init,
         status: STATUS,
-        execute: executeNext
-    }
+        execute: executeNext,
+        executeFile:executeFile
+    };
 })();
 
 

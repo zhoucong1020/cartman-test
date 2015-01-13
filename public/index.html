@@ -7,8 +7,6 @@
     </title>
     <link href="./css/bootstrap.min.css" rel="stylesheet">
 
-    <link href="./css/bootstrap-theme.min.css" data-href="./css/bootstrap-theme.min.css" rel="stylesheet"
-            >
     <link rel="stylesheet/less" type="text/css" href="./css/style.less">
 </head>
 <body ng-controller="TestAllCrl">
@@ -27,9 +25,9 @@
 <div class="container container-margin-top">
     <div class="col-md-10" role="main">
         <div class="progress">
-            <div class="progress-bar" role="progressbar" aria-valuenow="{{runStepCount * 100 / stepCount}}"
-                 aria-valuemin="0" aria-valuemax="100" style="width: {{runStepCount * 100 / stepCount}}%;">
-                <span class="sr-only">0% Complete</span>
+            <div class="progress-bar" role="progressbar" aria-valuenow="{{stepCount * 100 /runStepCount }}"
+                 aria-valuemin="0" aria-valuemax="100" style="width: {{ stepCount* 100 / runStepCount}}%;">
+                <span class="sr-only">{{stepCount * 100 /runStepCount }}%</span>
             </div>
         </div>
         <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
@@ -75,8 +73,11 @@
         </div>
     </div>
     <div class="col-md-2">
-        <!--<button type="button" id="start" class="btn btn-sm btn-success">运行</button><br>-->
-     <!--   <button type="button" class="btn btn-primary btn-sm" name="group">展开/收起</button>-->
+        <select id="testFile"class="form-control">
+            <option ng-repeat="fileName in testFiles">{{fileName}}</option>
+        </select>
+
+        <button type="button" id="start" class="btn btn-sm btn-success">运行</button><br>
         <div class="affix" data-offset-top="20px" id="navbar">
             <ul class="nav">
                 <li class="nav-li" ng-repeat="service in groups">
@@ -95,7 +96,6 @@
     </div>
 </div>
 </div>
-<script src="./testA.js"></script>
 <script src="./js/jquery.min.js"></script>
 <script src="./js/bootstrap.min.js"></script>
 <script src="./js/angular.min.js"></script>

@@ -18,17 +18,27 @@ app.disable('etag');
 app.use(express.static(__dirname + '/public'));
 
 
+var fs = require("fs")
+app.use("/cartman_test_file",function(req,res){
+    var testFiles = fs.readdirSync(__dirname+"/public/test");
+    testFiles = testFiles.filter(function(ele){
+        return ".js" == ele.substr(ele.length-3,3);
+    })
+    res.send(testFiles);
+})
+
 app.use(function (req, res) {
     if(req.url == "/favicon.ico"){
         return;
     }
-
     var method = req.method.toUpperCase();
     console.log(new Date().getTime()+ "    " +method + "    "+req.url +" request start");
     if (req.method.toUpperCase() == "GET") {
         getProxy(req,res);
     } else if (req.method.toUpperCase() == "POST") {
         postProxy(req,res);
+    }else{
+        postProxy(req,res)
     }
 })
 function getProxy(req, res) {
